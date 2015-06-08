@@ -4,6 +4,6 @@ Each folder contains the example of one of the techniques used to prevent seurit
 
 To run the patch execute the following command line:
 
-./patch# (where # is the number of the patch) 
+./patch#.patch (where # is the number of the patch) 
 
 It will execute the file and show the difference. 
