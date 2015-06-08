@@ -1,0 +1,38 @@
+1) 
+- The problem in the code is that it gives an external atack an ability 
+to access any path without root permision. In the code, the source of 
+vulnerability is "my $memo = param('memo')" which sets the path and gets the
+memo for output. The atacker can easily see the password of any user by changingthe url in following way: 
+"http://localhost:8118/cgi-bin/memo.cgi?memo=/etc/shadow". The flaw in the mentioned function is that it provides the path to any essential file and is not secured.
+ 
+2)
+- I fixed the vulnerability issue by anaylizing the source code of the html file. I noticed that the memo variable has all the values that the attacker can use to see personal data of each user in the database. I made the "memos" variable global and move the following code outside of the method:
+
+"my @memos = </home/*/memo/*>; # all regular users
+push (@memos, </root/memo/*>); #special memos from root" // it makes @memos accessible to the entire class
+
+Next, I added the code starting at line #81
+
+"my %memos_map = map {$_ => 1} @memos; // creates a map of the data included in //@memos
+
+if (exists($memos_map{$memo}) ) { //checks for specific file included in the input (by the user).
+//if the file does not exist in the database, it won't show any information of t//he file.
+
+...//the rest of the code 
+}"
+
+By adding the lines of code above we are restricting access to very important data. This solves the issue of traversal vulnerability.
+
+3) 
+	1.  The breach caused very serious issues because it caused the system 
+	to allow access to personal information of users included in 
+the database. As a result of vulnerability flaw, we are losing secure access to confedential data.In order to solve this issue, we must reformat the computer, its files accessability, and server formatting. Furthermore, we should use the global variables very carefully, and use the condition functions to secure specific functions and data they allow us to 
+	access.
+	
+	2. With poor implementation, the atacker can easily access the essential
+	by inputing the following: "/home/memo/../../etc/shadow." Since the
+ atacker still can back-track the path using the ".." he or she can still get into oursystem using the path (/home/memo/../../etc/shadow). There are many other ways of back-tracking technique but the mentioned path is enough to access the 
+	passwords of users in the database.
+	
+	3. I think the source code doesn't use useful techniques of object-oriented programming which makes the whole code hard to read. In real life, it would
+ have been a big issue since debugging will take too much time and push back the whole security and testng process. 

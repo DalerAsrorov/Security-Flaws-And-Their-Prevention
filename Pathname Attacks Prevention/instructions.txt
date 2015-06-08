@@ -1,0 +1,10 @@
+﻿In order to run the exploit, do the following steps:  
+
+- open the terminal  
+- run ./exploit2.sh
+- On my machine I didn't put my local port number, but if you have trouble, just add the local port number after localhost: #.
+ Example: http://localhost:(your local port number)/cgi-bin/memo.cgi?memo=/etc/shadow  
+- it should create/open shadow.txt file (shadow)
+
+
+ 

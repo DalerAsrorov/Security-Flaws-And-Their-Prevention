@@ -1,0 +1,52 @@
+--- webserver.c	2015-03-18 20:05:19.000000000 -0700
++++ webserver-fixed.c	2015-03-18 21:39:54.000000000 -0700
+@@ -215,6 +215,7 @@
+   const int BUFSIZE = 1024;
+   char sendmessage[BUFSIZE];
+   char *path = req->uri;
++  size_t maxlength = 255;
+   
+   if (req->uri == NULL || req->method == NULL || 
+       req->headers == NULL || req->version == NULL) {
+@@ -292,26 +293,26 @@
+     }
+ 
+     time(&curtime); // time for Date: header
+-    strcat(sendmessage, "HTTP/1.0 ");
+-    strcat(sendmessage, status(statcode));    
+-    strcat(sendmessage, "\r\nDate: ");
++    strncat(sendmessage, "HTTP/1.0 ", 256);
++    strncat(sendmessage, status(statcode), 256);    
++    strncat(sendmessage, "\r\nDate: ", maxlength);
+     strncat(sendmessage, asctime(gmtime(&curtime)), 24);
+-    strcat(sendmessage, "\r\nServer: Frobozz Magic Software Company Webserver v.002");
+-    strcat(sendmessage, "\r\nConnection: close");
+-    strcat(sendmessage, "\r\nContent-Type: ");    
+-    strcat(sendmessage, contype(ext));
+-    strcat(sendmessage, "\r\n\r\n");
++    strncat(sendmessage, "\r\nServer: Frobozz Magic Software Company Webserver v.002", maxlength);
++    strncat(sendmessage, "\r\nConnection: close", maxlength);
++    strncat(sendmessage, "\r\nContent-Type: ", maxlength);    
++    strncat(sendmessage, contype(ext), maxlength);
++    strncat(sendmessage, "\r\n\r\n", maxlength);
+   
+   }
+ 
+   if (statcode != 200) {
+-    strcat(sendmessage, "<html><head><title>");
+-    strcat(sendmessage, status(statcode));
+-    strcat(sendmessage, "</title></head><body><h2>HTTP/1.0</h2><h1>");
+-    strcat(sendmessage, status(statcode));
+-    strcat(sendmessage, "</h1><h2>URI: ");
+-    strcat(sendmessage, path);
+-    strcat(sendmessage, "</h2></body></html>");
++    strncat(sendmessage, "<html><head><title>", maxlength);
++    strncat(sendmessage, status(statcode), maxlength);
++    strncat(sendmessage, "</title></head><body><h2>HTTP/1.0</h2><h1>", maxlength);
++    strncat(sendmessage, path, maxlength);
++    strncat(sendmessage, "</h1><h2>URI: ", maxlength);
++    strncat(sendmessage, path, maxlength);
++    strncat(sendmessage, "</h2></body></html>", maxlength);
+   }
+ 
+   if (sendmessage[0] != '\0') {

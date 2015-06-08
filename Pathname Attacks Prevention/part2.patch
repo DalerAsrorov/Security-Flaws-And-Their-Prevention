@@ -1,0 +1,31 @@
+--- memo.cgi	2015-03-18 18:18:40.000000000 -0700
++++ memo-fixed.cgi	2015-03-18 18:14:35.000000000 -0700
+@@ -31,8 +31,6 @@
+ 
+ # glob through the homedirs for an array of paths to memos sorted by date
+ sub list_memo_selector { 
+-	my @memos = </home/*/memo/*>; # all regular users
+-	push (@memos, </root/memo/*>); #special memos from root
+ 	foreach (@memos) {
+ 		$_ =~ m#^.+/([^/]+)$#; # regex extract filename
+ 		my $temp = $1;
+@@ -80,6 +78,11 @@
+ 	print "<tr><td><p>&nbsp;</p>\n";
+ 	print "<blockquote><p>\n";
+ 
++	my %memos_map = map {$_ => 1} @memos;
++	
++	
++	if (exists($memos_map{$memo}) ) { 
++
+ 	open (MEMO, $memo);
+ 	
+ 	foreach (<MEMO>) {
+@@ -87,6 +90,7 @@
+ 		print "$_\n";
+ 	}
+ 
++ }
+ 	print "</p></blockquote>\n";
+ 	print '<p>&nbsp;</p></td></tr></table>';
+ 	print "</blockquote>";

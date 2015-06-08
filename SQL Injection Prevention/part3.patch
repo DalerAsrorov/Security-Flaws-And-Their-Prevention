@@ -1,0 +1,12 @@
+--- FCCU.php	2015-03-19 12:44:47.000000000 -0700
++++ FCCU-fixed.php	2015-03-19 15:56:50.000000000 -0700
+@@ -30,6 +30,9 @@
+ } else { // otherwise, attempt to authenticate
+ 	$id = $PARAM['id'];
+ 	$password = $PARAM['password'];
++	
++	$id=addslashes($id);
++	$password=addslashes($password);
+ 
+ 	$link_id = mysql_connect($dbhost, $dbuser, $dbpass);
+ 	mysql_select_db($dbname);

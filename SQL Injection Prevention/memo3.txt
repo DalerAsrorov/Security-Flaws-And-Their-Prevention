@@ -1,0 +1,10 @@
+1)	The security flaw in the FCCU application is that an attacker can access any account and see personal information about the user. The attacker can also transfer amount to his or her own account. That's why it is quite essential for banks to use all the required resources to make sure that accounts of their customers are under safety. 
+
+2) I fixed the flaw by using the addslashes() method which prevents the system from allowing the attacker to use specia mysql commands and interrupts the attack. As a result, the attacker's commands cannot go through because the slashes are added to unusual characters that are used in mysql. Thanks to the fix, the attacker is not able to login into any account.
+
+3) 
+	1. The seriousness of vulnurability is extremely high because an attacker is able to access crucial information that contains the customers' money. Obviously, it is very serious issue if the attacker is able to access account's number and balance, and manipulate it. Neverthless, the attacker was not able to gain a root access because the attacker did not have a complete control over the server. He had control over the accounts' money and data, but was not able to fakeaccounts or use other priviligies that the root has such as change of source code or deletion of source files. Even though the attacker was able to access users' accounts, it is not enough for the attacker to overtake the server.
+	2. In order to secure the server, all inputs should went through checking in the code. The developer of the serveer must include input checking methods that will make the access to personal data much more less likely. For this reason there are functions such as addslashes() (and others) that help developers make the server and its inputs more secure.
+	3. There might be more efficient methods than addslashes() that would prevent the SQL injection attacks, but addslashes() worked fine for all the cases I could find. I think it's quite secure and it saves the server from SQL injection attacks.  
+
+	
